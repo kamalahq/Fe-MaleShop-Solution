@@ -1,0 +1,147 @@
+﻿@model IEnumerable<Category>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="page-header">
+    <div class="row align-items-end">
+        <div class="col-lg-8">
+            <div class="page-header-title">
+                <div class="d-inline">
+                    <h4>Category</h4>
+                    <span>
+                        lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="page-header-breadcrumb">
+                <ul class="breadcrumb-title">
+                    <li class="breadcrumb-item" style="float: left;">
+                        <a asp-controller="Dashboard" asp-action="Index"> <i class="feather icon-home"></i> </a>
+                    </li>
+                    <li class="breadcrumb-item" style="float: left;"><a href="#!">Brands</a> </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page-header end -->
+
+<div class="page-body">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Basic Table</h5>
+                    <span>use class <code>table</code> inside table element</span>
+
+                </div>
+                <div class="card-block table-border-style">
+                    <div class="table-responsive">
+                        <table class="table tree">
+                            <thead>
+                                <tr>
+                                    <th class="row-identifier">#</th>
+                                    <th>Name</th>
+                                    <th class="cell-operation">
+                                        <a asp-action="Create" class="btn btn-success btn-square text-white">
+                                            <i class="fas fa-plus "></i>
+                                        </a>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Any())
+                                {
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr class="treegrid-@item.Id @(item.ParentId!=null?$"treegrid-parent-{item.ParentId}" : "") ">
+                                            <th class="row-identifier" scope="row">@item.Id</th>
+                                            <td>@item.Name</td>
+                                            <td class="cell-operation">
+                                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-square text-white">
+                                                    <i class="fas fa-pencil-alt "></i>
+                                                </a>
+                                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-square text-white">
+                                                    <i class="fas fa-eye "></i>
+                                                </a>
+                                                <a oncilck="removeEntity(@item.Id,'@item.Name')" class="btn btn-danger btn-square  text-white">
+                                                    <i class="fas fa-trash-alt "></i>
+                                                </a>
+
+                                            </td>
+
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="3">
+                                            <div class="alert alert-warning ">
+                                                <p class="d-flex flex-column align-items-center">
+                                                    Məlumat yoxdur
+                                                    <a asp-action="Create"><b>yenisini yarat</b></a>
+                                                </p>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section addcss{
+
+    <link href="~/libs/jquery-treegrid/css/jquery.treegrid.min.css" rel="stylesheet" />
+}
+@section addjs{
+    <script src="~/libs/sweetalert/sweetalert.min.js"></script>
+    <script src="~/libs/jquery-treegrid/js/jquery.treegrid.min.js"></script>
+    <script>
+         function removeEntity(entityId,name) {
+            swal({
+                title: "Diqqet!",
+                text: `'${name}'-adli brendi silmek istediyinizden eminsiniz? `,
+                icon: "warning",
+                buttons: ['Xeyr','Beli']
+            })
+                .then(willDelete => {
+                    if (willDelete) {
+
+                        $.ajax({
+                            url: `@Url.Action("Delete")`,
+                            type: `POST`,
+                            data: {
+                                id: entityId
+                            },
+                            contentType: 'application/x-www-form-urlencoded',
+                            dataType: 'json',
+                            success: function (response) {
+                                if (response.error == true); {
+                                    toastr.error(response.message, 'Xeta!');
+                            }
+
+                            },
+
+                        });
+                    }
+                });
+        };
+        $('.tree').treegrid();
+    </script>
+}
+
+
+

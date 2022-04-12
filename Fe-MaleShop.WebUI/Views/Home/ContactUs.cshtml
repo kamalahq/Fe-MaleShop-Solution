@@ -1,0 +1,54 @@
+﻿@model Contact
+@{
+    ViewData["Title"] = "ContactUs";
+}
+
+        <!-- header section strats -->
+    
+        <!-- end header section -->
+    </div>
+    <!-- inner page section -->
+    <section class="inner_page_head">
+        <div class="container_fuild">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="full">
+                        <h3>Contact us</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="why_section layout_padding">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-8 offset-lg-2">
+                    <div class="full">
+                        <form method="post">
+                            @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
+                            {
+                                <p class="alert alert-info">
+                                    @ViewBag.Message
+                                </p>
+                            }
+                        <fieldset>
+                            <input type="text" placeholder="Ad və soyadınızı daxil edın" name="name" asp-for="Name" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                            <input type="email" placeholder="Mail adını daxil edin" name="email" asp-for="Email" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                            <input type="text" placeholder="Mövzü qeyd edin" name="subject" required />
+                            <textarea placeholder="Mətni daxil edin" asp-for="Comment"></textarea>
+                            <span asp-validation-for="Comment" class="text-danger"></span>
+                            <input type="submit" value="Göndər" />
+                        </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end why section -->
+    <!-- arrival section -->
+
+
