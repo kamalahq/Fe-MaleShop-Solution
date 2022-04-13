@@ -8,6 +8,7 @@ using Fe_MaleShop.WebUI.Models.Entities;
 using System.Net.Mail;
 using Microsoft.Extensions.Configuration;
 using System.Net;
+using Fe_MaleShop.WebUI.AppCode.Extensions;
 
 namespace Fe_MaleShop.WebUI.Controllers
 {
@@ -89,38 +90,30 @@ namespace Fe_MaleShop.WebUI.Controllers
 
                 string token = $"subscribetoken-{model.Id}-{DateTime.Now:yyyyMMddHHmmss}";
 
-                string path = $"{ Request.Scheme}://{Request.Host}?token={token}";
+                string path = $"{ Request.Scheme}://{Request.Host}/subscribe-confirm?token={token}";
 
-                string fromMail = configuration["emailAccount:userName"];
+               var mailSended = configuration.SendEmail(model.Email, "Fe_MaleShops Newsletter subscribe ", $"Zəhmət olmasa <a href={path}>link</a> vasitəsilə abunəliyi tamamlayasınız");
 
-                string displayName = configuration["emailAccount:displayName"];
-                string smtpServer = configuration["emailAccount:smtpServer"];
-                int smtpPort = Convert.ToInt32(configuration["emailAccount:smtpPort"]);
-                string password = configuration["emailAccount:password"];
-                string cc = configuration["emailAccount:cc"];
+                if (mailSended==false)
+                {
+                    db.Database.RollbackTransaction();
 
-                MailAddress from = new MailAddress(fromMail, displayName);
-                MailAddress to = new MailAddress(model.Email);
-                MailMessage message = new MailMessage(from, to);
-                message.Subject = "Fe_MaleShops Newsletter subscribe ";
-                message.Body = $"Zəhmət olmasa <a href={path}>link</a> vasitəsilə abunəliyi tamamlayasınız";
-                message.IsBodyHtml = true;
+                    return Json(new
+                    {
+                        error = false,
+                        message = "E-mail göndərilən zaman xəta baş verdi.Biraz sonra yeniden yoxlayın"
+                    });
+                }
 
-                if(!string.IsNullOrWhiteSpace(cc))
-                message.CC.Add(cc);
-
-                SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort);
-                smtpClient.Credentials = new NetworkCredential(fromMail,password);
-                smtpClient.EnableSsl = true;
-                smtpClient.Send(message);
-
-                //todo
                 return Json(new
                 {
-                    error = false,
-                    message = "Sorğunuz uğurla qeydə alindi.Zəhmət olmasa E-poçtunuza göndərilmiş linkdən abunəliyi tamamlayasınız"
+                    error = true,
+                    message = "Sorğunuz uğurla qeyde alındı.Zəhmət olmasa E-poçtunuza göndərilmiş linkdən abunəliyinizi tamamlayın."
                 });
+
             }
+            
+
             return Json(new
             {
                 error = true,
