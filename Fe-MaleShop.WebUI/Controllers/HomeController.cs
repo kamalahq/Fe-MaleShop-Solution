@@ -5,15 +5,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Fe_MaleShop.WebUI.Models.DataContexts;
 using Fe_MaleShop.WebUI.Models.Entities;
+using System.Net.Mail;
+using Microsoft.Extensions.Configuration;
+using System.Net;
 
 namespace Fe_MaleShop.WebUI.Controllers
 {
     public class HomeController : Controller
     {
         readonly Fe_MaleShopDbContext db;
-        public HomeController(Fe_MaleShopDbContext db)
+        readonly IConfiguration configuration;
+        public HomeController(Fe_MaleShopDbContext db,IConfiguration configuration)
         {
             this.db = db;
+            this.configuration = configuration;
         }
         public IActionResult Index()
         {
@@ -81,6 +86,34 @@ namespace Fe_MaleShop.WebUI.Controllers
 
                 db.Subscribes.Add(model);
                 db.SaveChanges();
+
+                string token = $"subscribetoken-{model.Id}-{DateTime.Now:yyyyMMddHHmmss}";
+
+                string path = $"{ Request.Scheme}://{Request.Host}?token={token}";
+
+                string fromMail = configuration["emailAccount:userName"];
+
+                string displayName = configuration["emailAccount:displayName"];
+                string smtpServer = configuration["emailAccount:smtpServer"];
+                int smtpPort = Convert.ToInt32(configuration["emailAccount:smtpPort"]);
+                string password = configuration["emailAccount:password"];
+                string cc = configuration["emailAccount:cc"];
+
+                MailAddress from = new MailAddress(fromMail, displayName);
+                MailAddress to = new MailAddress(model.Email);
+                MailMessage message = new MailMessage(from, to);
+                message.Subject = "Fe_MaleShops Newsletter subscribe ";
+                message.Body = $"Zəhmət olmasa <a href={path}>link</a> vasitəsilə abunəliyi tamamlayasınız";
+                message.IsBodyHtml = true;
+
+                if(!string.IsNullOrWhiteSpace(cc))
+                message.CC.Add(cc);
+
+                SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort);
+                smtpClient.Credentials = new NetworkCredential(fromMail,password);
+                smtpClient.EnableSsl = true;
+                smtpClient.Send(message);
+
                 //todo
                 return Json(new
                 {
