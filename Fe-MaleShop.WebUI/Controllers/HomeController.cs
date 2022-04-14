@@ -85,17 +85,19 @@ namespace Fe_MaleShop.WebUI.Controllers
                     });
                 }
 
+                var t = db.Database.BeginTransaction();
                 db.Subscribes.Add(model);
                 db.SaveChanges();
 
                 string token = $"subscribetoken-{model.Id}-{DateTime.Now:yyyyMMddHHmmss}";
 
-                string path = $"{ Request.Scheme}://{Request.Host}/subscribe-confirm?token={token}";
+                string path = $"{Request.Scheme}://{Request.Host}/subscribe-confirm?token={token}";
 
                var mailSended = configuration.SendEmail(model.Email, "Fe_MaleShops Newsletter subscribe ", $"Zəhmət olmasa <a href={path}>link</a> vasitəsilə abunəliyi tamamlayasınız");
 
                 if (mailSended==false)
                 {
+
                     db.Database.RollbackTransaction();
 
                     return Json(new
@@ -104,6 +106,7 @@ namespace Fe_MaleShop.WebUI.Controllers
                         message = "E-mail göndərilən zaman xəta baş verdi.Biraz sonra yeniden yoxlayın"
                     });
                 }
+
 
                 return Json(new
                 {

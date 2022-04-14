@@ -44,7 +44,7 @@ namespace Fe_MaleShop.WebUI.AppCode.Extensions
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }
