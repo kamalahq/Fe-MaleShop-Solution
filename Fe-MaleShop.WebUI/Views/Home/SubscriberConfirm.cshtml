@@ -1,0 +1,28 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Subscriber Confirm</title>
+    <link rel="stylesheet" href="~/assets/css/bootstrap.css" />
+</head>
+<body>
+    <div class="root">
+        <div class="container">
+            <div class="row justify-content-center vh-100 align-items-center">
+                <div class="col-md-8">
+                    <div class="alert d-flex flex-column align-items-center @(ViewBag.Status == false ? "alert-success" : "alert-danger")" role="alert">
+                        @ViewBag.Message
+                        <a class="btn btn-primary mt-2" asp-action="Index">Ana səhifəyə qayıt</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

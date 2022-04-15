@@ -36,25 +36,74 @@ namespace Fe_MaleShop.WebUI.AppCode.Extensions
 
         public static string Encrypt(this string value,string key)
         {
-            using (var provider = new TripleDESCryptoServiceProvider())
-            using (var md5 = new MD5CryptoServiceProvider())
+            try
             {
 
-                var keyBuffer = md5.ComputeHash(Encoding.UTF8.GetBytes($"#{key}!"));
-                var ivBuffer = md5.ComputeHash(Encoding.UTF8.GetBytes($"@{key}$"));
-
-                ICryptoTransform transform = provider.CreateEncryptor(keyBuffer, ivBuffer);
-
-                using (var ms = new MemoryStream())
-                using (var cs = new CryptoStream(ms, transform,CryptoStreamMode.Write))
-               
+                using (var provider = new TripleDESCryptoServiceProvider())
+                using (var md5 = new MD5CryptoServiceProvider())
                 {
-                    byte[] valueBuffer = Encoding.UTF8.GetBytes(value);
 
-                    cs.Write(valueBuffer,0, valueBuffer.Length);
+                    var keyBuffer = md5.ComputeHash(Encoding.UTF8.GetBytes($"#{key}!"));
+                    var ivBuffer = md5.ComputeHash(Encoding.UTF8.GetBytes($"@{key}$"));
+
+                    var transform = provider.CreateEncryptor(keyBuffer, ivBuffer);
+
+                    using (var ms = new MemoryStream())
+                    using (var cs = new CryptoStream(ms, transform, CryptoStreamMode.Write))
+
+                    {
+                        byte[] valueBuffer = Encoding.UTF8.GetBytes(value);
+
+                        cs.Write(valueBuffer, 0, valueBuffer.Length);
+                        cs.FlushFinalBlock();
+                        ms.Position = 0;
+                        byte[] result = new byte[ms.Length];
+                        ms.Read(result, 0, result.Length);
+                        return Convert.ToBase64String(result);
+                    }
                 }
             }
-            return "";
+            catch (Exception ex)
+            {
+                return "";
+            }
+          
+        }
+
+        public static string Decrypt(this string value, string key)
+        {
+            try
+            {
+
+                using (var provider = new TripleDESCryptoServiceProvider())
+                using (var md5 = new MD5CryptoServiceProvider())
+                {
+
+                    var keyBuffer = md5.ComputeHash(Encoding.UTF8.GetBytes($"#{key}!"));
+                    var ivBuffer = md5.ComputeHash(Encoding.UTF8.GetBytes($"@{key}$"));
+
+                    var transform = provider.CreateDecryptor(keyBuffer, ivBuffer);
+
+                    using (var ms = new MemoryStream())
+                    using (var cs = new CryptoStream(ms, transform, CryptoStreamMode.Write))
+
+                    {
+                        byte[] valueBuffer = Convert.FromBase64String(value);
+
+                        cs.Write(valueBuffer, 0, valueBuffer.Length);
+                        cs.FlushFinalBlock();
+                        ms.Position = 0;
+                        byte[] result = new byte[ms.Length];
+                        ms.Read(result, 0, result.Length);
+                        return Encoding.UTF8.GetString(result);
+                    }
+                }
+            }
+            catch (Exception )
+            {
+                return "";
+            }
+
         }
     }
 

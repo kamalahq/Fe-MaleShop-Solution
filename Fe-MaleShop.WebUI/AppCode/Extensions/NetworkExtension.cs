@@ -18,6 +18,9 @@ namespace Fe_MaleShop.WebUI.AppCode.Extensions
         {
             try
             {
+                //string requestLink = $"{Request.Host}";
+                string securityKey = configuration["securityKey"];
+
                 string fromMail = configuration["emailAccount:userName"];
 
                 string displayName = configuration["emailAccount:displayName"];

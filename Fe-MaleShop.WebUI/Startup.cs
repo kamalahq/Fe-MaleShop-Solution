@@ -20,10 +20,13 @@ namespace Fe_MaleShop.WebUI
         public Startup(IConfiguration configuration)
         {
             this.configuration = configuration;
+            string myKey = "Female";
 
             string plainText = "test";
 
-            string hashedText = plainText.ToMd5();
+            //string hashedText = plainText.ToMd5();
+            string chiperText = plainText.Encrypt(myKey);  //kFVbS1CtCkE
+            string MyplainText = chiperText.Decrypt(myKey);
         }
         public void ConfigureServices(IServiceCollection services)
         {

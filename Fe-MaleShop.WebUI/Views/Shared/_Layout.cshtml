@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-   
+
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     <meta name="author" content="" />
@@ -19,7 +19,7 @@
     <link href="~/assets/css/style.css" rel="stylesheet" />
     <link href="~/assets/css/responsive.css" rel="stylesheet" />
     <link href="~/libs/toastr.js/toastr.css" rel="stylesheet" />
-    
+
 </head>
 <body>
     <header class="header_section">
@@ -243,6 +243,9 @@
                         if (response.error == false) {
                             e.currentTarget.reset();
                             toastr.success(response.message, "Uğurlu")
+                            setTimeout(() => {
+                                window.location.assign('@Url.Action("Index")');
+                            }, 1500);
                             /*$(e.currentTarget).find('.is-valid').removeClass('is-valid');*/
                         }
                         else {
@@ -284,8 +287,8 @@
             });
         });
     </script>
-  @*@section addcss{ 
-      <link href="~/assets/css/14.product-style.min.css" rel="stylesheet" />
-  }*@
+    @*@section addcss{
+            <link href="~/assets/css/14.product-style.min.css" rel="stylesheet" />
+        }*@
 </body>
 </html>
