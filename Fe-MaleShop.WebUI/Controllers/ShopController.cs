@@ -43,10 +43,12 @@ namespace Fe_MaleShop.WebUI.Controllers
             return View(vm);
 
         }
-        public IActionResult Details()
-        {
-            return View();
-        }
+        //public IActionResult Details(int id)
+        //{
+        //    Fe_MaleShopDbContext db = new Fe_MaleShopDbContext();
+
+        //    return View();
+        //}
 
     }
     

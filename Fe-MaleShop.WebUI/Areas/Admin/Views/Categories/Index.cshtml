@@ -56,9 +56,9 @@
                             <tbody>
                                 @if (Model.Any())
                                 {
-                                    @foreach (var item in Model)
+                                    @foreach (var item in Model.Where(c=> c.ParentId == null))
                                     {
-                                        <tr class="treegrid-@item.Id @(item.ParentId!=null?$"treegrid-parent-{item.ParentId}" : "") ">
+                                        <tr class="treegrid-@item.Id">
                                             <th class="row-identifier" scope="row">@item.Id</th>
                                             <td>@item.Name</td>
                                             <td class="cell-operation">
@@ -74,7 +74,28 @@
 
                                             </td>
 
-                                        </tr>
+                                        </tr> 
+
+                                     foreach (var child in item.GetChildCategories())
+                                    {
+                                            <tr class="treegrid-@child.Id treegrid-parent-@child.ParentId">
+                                                <th class="row-identifier" scope="row">@child.Id</th>
+                                                <td>@child.Name</td>
+                                                <td class="cell-operation">
+                                                    <a asp-action="Edit" asp-route-id="@child.Id" class="btn btn-warning btn-square text-white">
+                                                        <i class="fas fa-pencil-alt "></i>
+                                                    </a>
+                                                    <a asp-action="Details" asp-route-id="@child.Id" class="btn btn-info btn-square text-white">
+                                                        <i class="fas fa-eye "></i>
+                                                    </a>
+                                                    <a onclick="removeEntity(@child.Id,'@child.Name')" class="btn btn-danger btn-square  text-white">
+                                                        <i class="fas fa-trash-alt "></i>
+                                                    </a>
+
+                                                </td>
+
+                                            </tr>
+                                        }
                                     }
                                 }
                                 else
@@ -142,6 +163,7 @@
         $('.tree').treegrid();
     </script>
 }
+
 
 
 

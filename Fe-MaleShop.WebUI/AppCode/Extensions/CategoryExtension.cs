@@ -8,12 +8,15 @@ namespace Fe_MaleShop.WebUI.AppCode.Extensions
 {
     static public partial class Extension
     {
-        static public IEnumerable<Category> GetchildCategories(this Category parent)
+        static public IEnumerable<Category>GetChildCategories(this Category parent)
         {
-            yield return parent;
+            if (parent.ParentId != null)
 
-            foreach (var child in parent.Children.SelectMany(c=>c.GetchildCategories()))
+                yield return parent;
+
+            foreach (var child in parent.Children.SelectMany(c=>c.GetChildCategories()))
             {
+                
                 yield return child;
             }
         }

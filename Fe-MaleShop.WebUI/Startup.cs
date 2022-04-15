@@ -1,3 +1,4 @@
+using Fe_MaleShop.WebUI.AppCode.Extensions;
 using Fe_MaleShop.WebUI.Models.DataContexts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,6 +20,10 @@ namespace Fe_MaleShop.WebUI
         public Startup(IConfiguration configuration)
         {
             this.configuration = configuration;
+
+            string plainText = "test";
+
+            string hashedText = plainText.ToMd5();
         }
         public void ConfigureServices(IServiceCollection services)
         {

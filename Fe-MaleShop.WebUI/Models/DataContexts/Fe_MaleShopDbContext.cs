@@ -15,6 +15,13 @@ namespace Fe_MaleShop.WebUI.Models.DataContexts
         {
 
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=Fe_Male;User Id=sa;Password=query;MultipleActiveResultSets=true;");
+            }
+        }
 
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Faq> Faqs { get; set; }
@@ -25,8 +32,10 @@ namespace Fe_MaleShop.WebUI.Models.DataContexts
         public DbSet<Category> Categories { get; set; }
         public DbSet<AppInfo> AppInfos { get; set; }
         public DbSet<ProductSize> Sizes { get; set; }
-        
-        
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
+
+
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{

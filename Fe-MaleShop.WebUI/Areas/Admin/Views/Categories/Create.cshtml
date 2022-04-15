@@ -1,4 +1,4 @@
-﻿@model Brand
+﻿@model Category
 @{
     ViewData["Title"] = "Create";
 }
@@ -8,7 +8,7 @@
         <div class="col-lg-8">
             <div class="page-header-title">
                 <div class="d-inline">
-                    <h4>Brands</h4>
+                    <h4>Categories</h4>
                 </div>
             </div>
         </div>
@@ -18,8 +18,8 @@
                     <li class="breadcrumb-item" style="float: left;">
                         <a asp-controller="Dashboard" asp-action="Index"> <i class="feather icon-home"></i> </a>
                     </li>
-                    <li class="breadcrumb-item" style="float: left;"><a  asp-action="Index">Brands</a> </li>
-                    <li class="breadcrumb-item" style="float: left;"><a href="#!">Yeni brand yaratmaq</a> </li>
+                    <li class="breadcrumb-item" style="float: left;"><a asp-action="Index">Categories</a> </li>
+                    <li class="breadcrumb-item" style="float: left;"><a href="#!">Yeni kategoriya yaratmaq</a> </li>
                 </ul>
             </div>
         </div>
@@ -33,21 +33,31 @@
 
             <div class="card">
                 <div class="card-block">
-                    <h4 class="sub-title">Yeni brand yarat</h4>
+                    <h4 class="sub-title">Yeni kategoriya yarat</h4>
                     <form method="Post">
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label required" asp-for="Name">
                             </label>
                             <div class="col-sm-10">
-                                <input class="form-control" placeholder="Brand adını daxil edin" asp-for="Name"/>
+                                <input class="form-control" placeholder="Kateqoriya adını daxil edin" asp-for="Name" />
                                 <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label required" asp-for="ParentId">
+                            </label>
+                            <div class="col-sm-10">
+                                <select class="form-control select2" asp-for="ParentId" asp-items="@ViewBag.Categories">
+                                    <option value="" selected>-- Seçilməyib --</option>
+                                </select>
+                                <span asp-validation-for="ParentId" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label" asp-for="Description">
                             </label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" placeholder="Brand üçün qısa qeyd daxil edin" asp-for="Description"></textarea>
+                                <textarea class="form-control" placeholder="Kateqoriya üçün qısa qeyd daxil edin" asp-for="Description"></textarea>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -66,4 +76,18 @@
         </div>
     </div>
 </div>
+
+@section addcss{
+    <link href="~/libs/select2/css/select2.css" rel="stylesheet" />
+}
+@section addjs{
+    <script src="~/libs/select2/js/select2.full.js"></script>
+
+<script>
+    $(document).ready(function()
+        {
+        $('.select2').select2();
+    });
+</script>
+}
 
