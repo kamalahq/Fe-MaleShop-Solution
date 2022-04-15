@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fe_MaleShop.WebUI.Models.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Fe_MaleShop.WebUI.Models.Entities.Membership;
 
 namespace Fe_MaleShop.WebUI.Models.DataContexts
 {
-    public class Fe_MaleShopDbContext : DbContext
+    public class Fe_MaleShopDbContext : IdentityDbContext<Fe_MaleUser, Fe_MaleRole,int,Fe_MaleUserClaim, Fe_MaleUserRole, Fe_MaleUserLogin, Fe_MaleRoleClaim, Fe_MaleUserToken>
     {
 
         public Fe_MaleShopDbContext(DbContextOptions options)
