@@ -115,4 +115,12 @@ textarea.form-control {
     top: 1px !important;
     right: 3px !important;
 }
+.fieldset.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: 436px;
+    margin-left: 241px;
+    
 

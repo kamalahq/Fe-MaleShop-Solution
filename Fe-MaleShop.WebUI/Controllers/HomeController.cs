@@ -13,9 +13,11 @@ using System.Text.RegularExpressions;
 using System.Text;
 using System.Globalization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Fe_MaleShop.WebUI.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         readonly Fe_MaleShopDbContext db;

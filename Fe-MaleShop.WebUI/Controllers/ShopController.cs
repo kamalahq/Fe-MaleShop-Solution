@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Fe_MaleShop.WebUI.Models.DataContexts;
 using Fe_MaleShop.WebUI.Models.Entities;
 using Fe_MaleShop.WebUI.Models.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Fe_MaleShop.WebUI.Controllers
 {
@@ -16,6 +17,7 @@ namespace Fe_MaleShop.WebUI.Controllers
         {
             this.db = db;
         }
+        [AllowAnonymous]
         public IActionResult Index()
         {
             
