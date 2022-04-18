@@ -44,38 +44,9 @@ namespace Fe_MaleShop.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                Fe_MaleUser founded = null;
-                bool appLiedPhoneLogin = false;
-                //if (model.UserName.IsPhone())
-                //{
-                //    appLiedPhoneLogin = true;
-                //    founded = await db.Users.FirstOrDefaultAsync(u => u.PhoneNumber.Equals(model.UserName));
-                //}
-                //else if (model.UserName.IsEmail())
-                //{
-                //    founded = await userManager.FindByEmailAsync(model.UserName);
-                //}
-                //else
-                //{
-                //    founded = await userManager.FindByNameAsync(model.UserName);
-                //}
-
-
-                //if (founded == null)
-                //{
-                //    goto end;
-                //}
-
-                //if (appLiedPhoneLogin && founded.PhoneNumberConfirmed = false)
-                //{
-                //    ViewBag.Message = "Telefon nomreniz tesdiqlenmeyib!";
-                //    return View();
-                //}
-                //else if (founded.EmailConfirmed == false)
-                //{
-                //    ViewBag.Message = "Email tesdiqlenmeyib!";
-                //    return View();
-                //}
+                Fe_MaleUser founded = await db.Users.FirstOrDefaultAsync(u=>u.Email.Equals(model.UserName));
+                
+               
                 var signinResult = await signinManager.PasswordSignInAsync(founded, model.Password, true, true);
                 if (signinResult.Succeeded)
                 {

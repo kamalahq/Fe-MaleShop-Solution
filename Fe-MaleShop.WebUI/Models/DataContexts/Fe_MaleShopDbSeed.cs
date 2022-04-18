@@ -15,7 +15,7 @@ namespace Fe_MaleShop.WebUI.Models.DataContexts
         static internal IApplicationBuilder SeedMembership(this IApplicationBuilder builder)
         {
             const string adminEmail = "kamalagh@code.edu.az";
-            const string adminPassword = "123";
+            const string adminPassword = "123321";
             const string  superAdminRoleName = "SuperAdmin";
             using (var scope = builder.ApplicationServices.CreateScope())
             {

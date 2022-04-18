@@ -85,21 +85,21 @@ namespace Fe_MaleShop.WebUI
                cfg.ExpireTimeSpan = new TimeSpan(0, 5, 0);
                cfg.LoginPath = "/signin.html";
                cfg.AccessDeniedPath = "/accessdenied.html";
-                services.Configure<IdentityOptions>(cfg =>
-                {
-                    // cfg.User.AllowedUserNameCharacters = "abcde";
-                    cfg.User.RequireUniqueEmail = true;
-                    cfg.Password.RequireDigit = false;
-                    cfg.Password.RequiredLength = 3;
-                    cfg.Password.RequiredUniqueChars = 1;
-                    cfg.Password.RequireLowercase = false;
-                    cfg.Password.RequireUppercase = false;
-                    cfg.Password.RequireNonAlphanumeric = false;
+            });
+            services.Configure<IdentityOptions>(cfg =>
+            {
+                // cfg.User.AllowedUserNameCharacters = "abcde";
+                cfg.User.RequireUniqueEmail = true;
+                cfg.Password.RequireDigit = false;
+                cfg.Password.RequiredLength = 3;
+                cfg.Password.RequiredUniqueChars = 1;
+                cfg.Password.RequireLowercase = false;
+                cfg.Password.RequireUppercase = false;
+                cfg.Password.RequireNonAlphanumeric = false;
 
-                    cfg.Lockout.MaxFailedAccessAttempts = 3;
-                    cfg.Lockout.DefaultLockoutTimeSpan = new TimeSpan(0, 5, 0);
+                cfg.Lockout.MaxFailedAccessAttempts = 3;
+                cfg.Lockout.DefaultLockoutTimeSpan = new TimeSpan(0, 5, 0);
 
-                });
             });
 
         }

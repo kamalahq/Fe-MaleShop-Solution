@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Fe_MaleShop.WebUI.Models.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Fe_MaleShop.WebUI.Models.Entities;
 
 namespace Fe_MaleShop.WebUI.Models.ViewModel
 {
